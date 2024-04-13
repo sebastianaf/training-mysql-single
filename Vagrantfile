@@ -4,9 +4,7 @@ desired_variables = [
   'DB_NAME', 
   'DB_PORT',
   'TZ', 
-  'PG_ADMIN_EMAIL', 
-  'PG_ADMIN_PASSWORD', 
-  'PG_ADMIN_PORT'
+  'PMA_PORT'
 ]
 
 if File.exists?('.env')
@@ -24,14 +22,12 @@ Vagrant.configure("2") do |config|
   db_name = ENV['DB_NAME']
   db_port = ENV['DB_PORT']
   tz = ENV['TZ']
-  pg_admin_email = ENV['PG_ADMIN_EMAIL']
-  pg_admin_password = ENV['PG_ADMIN_PASSWORD']
-  pg_admin_port = ENV['PG_ADMIN_PORT']
+  pma_port = ENV['PMA_PORT']
 
   config.vm.box = "ubuntu/jammy64"
   config.vm.hostname = "org-mysql"
   config.vm.network "forwarded_port", guest: db_port, host: db_port
-  config.vm.network "forwarded_port", guest: pg_admin_port, host: pg_admin_port
+  config.vm.network "forwarded_port", guest: pma_port, host: pma_port
 
   config.vm.provider "virtualbox" do |vb|
     vb.cpus = "2"
@@ -51,23 +47,21 @@ Vagrant.configure("2") do |config|
       sudo apt-get install -y docker-ce docker-ce-cli containerd.io
       sudo groupadd docker || true
       sudo usermod -aG docker vagrant
-      git clone https://github.com/sebastianaf/training-postgresql-single
-      cd training-postgresql-single || true
+      git clone https://github.com/sebastianaf/training-mysql-single
+      cd training-mysql-single || true
 
       echo "DB_USER=#{db_user}" > .env
       echo "DB_PASSWORD=#{db_password}" >> .env
       echo "DB_NAME=#{db_name}" >> .env
       echo "DB_PORT=#{db_port}" >> .env
       echo "TZ=#{tz}" >> .env
-      echo "PG_ADMIN_EMAIL=#{pg_admin_email}" >> .env
-      echo "PG_ADMIN_PASSWORD=#{pg_admin_password}" >> .env
-      echo "PG_ADMIN_PORT=#{pg_admin_port}" >> .env
+      echo "PMA_PORT=#{pma_port}" >> .env
       
       docker compose down
-      docker compose -p training-postgresql-single up -d --build || true
+      docker compose up -d --build || true
       
       echo "-------------------------------------------------------------------------------"
-      echo "Happy coding !! Access http://localhost:#{pg_admin_port}" from your browser
+      echo "Happy coding! Access MySQL and phpMyAdmin at http://localhost:#{pma_port} from your browser."
       echo "-------------------------------------------------------------------------------"
     SHELL
   end
