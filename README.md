@@ -1,5 +1,5 @@
 # training-mysql-single
- MySQL single sever and PhpMyAdmin with Docker Compose
+ MySQL single sever and PhpMyAdmin with Docker Compose and Vagrant deploy
 
 ## Requirements
  - Docker compose
