@@ -20,4 +20,4 @@ It's recommend to change all the names (in `docker-compose.yml`) named with `org
 ```shell
 docker compose -p training-posgresql up -d
 ```
-After type and run the command go to `localhost:${PG_ADMIN_PORT}`
+After type and run the command go to `localhost:${PMA_PORT}`
