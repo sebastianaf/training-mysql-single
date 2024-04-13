@@ -30,8 +30,8 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: pma_port, host: pma_port
 
   config.vm.provider "virtualbox" do |vb|
-    vb.cpus = "2"
-    vb.memory = "2048"
+    vb.cpus = "1"
+    vb.memory = "512"
   end
 
   config.vm.define "org-mysql" do |org_mysql|
