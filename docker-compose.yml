@@ -4,7 +4,6 @@ services:
     restart: always
     image: mysql:latest
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASSWORD}
@@ -24,6 +23,9 @@ services:
       PMA_HOST: org-mysql-db-01
       PMA_USER: ${DB_USER}
       PMA_PASSWORD: ${DB_PASSWORD}
+      PMA_HOSTS: org-mysql-db-01
+      PMA_UPLOAD_LIMIT: 500M
+      PMA_PMADB: phpmyadmin
     depends_on:
       - org-mysql-db-01
     ports:
